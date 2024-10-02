@@ -1,0 +1,77 @@
+<div class="landing-page">
+  <!-- medicine search field -->
+  <form class="form">
+    <mat-form-field class="filter-field">
+      <mat-label>Search Medicine</mat-label>
+      <input matInput placeholder="Search Medicine" [formControl]="medicineCtrl" aria-label="Medicine Name"
+        [matAutocomplete]="auto" matTooltip="please enter 3 or more character and select medicine from list" />
+      <mat-autocomplete #auto="matAutocomplete">
+        <mat-option *ngFor="let medicine of searchMedicineList" [value]=""
+          (onSelectionChange)="getSelectedMedicineDetail(medicine)">
+          <div style="display: flex; flex-direction: column;">
+            <span class="main-txet">{{ medicine?.medicine_name || "" }}</span>
+            <span class="sub-txet">{{ (medicine.manufacturer_name || '' ) + (medicine.price ? ('( MRP: ' +
+              medicine.price + ")") : "") }}</span>
+          </div>
+        </mat-option>
+        <mat-option *ngIf="!searchMedicineList?.length && !!medicineCtrl?.value?.length" [disabled]="true">
+          No Medicine Data Found
+        </mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
+  </form>
+
+  <!-- view selecetd data in table form -->
+  <div>
+    <mat-table [dataSource]="dataSource">
+      <!-- Index or Action Column -->
+      <ng-container matColumnDef="index">
+        <mat-header-cell *matHeaderCellDef class="width-3-5"></mat-header-cell>
+        <mat-cell *matCellDef="let element, index as i" class="width-3-5"><mat-icon class="delete-button"
+            (click)="deleteMedicine(i)">delete</mat-icon></mat-cell>
+      </ng-container>
+
+      <!-- Medicine Name Column -->
+      <ng-container matColumnDef="medicineName">
+        <mat-header-cell *matHeaderCellDef class="width-15-20"> Name </mat-header-cell>
+        <mat-cell *matCellDef="let element" class="width-15-20"> {{element?.medicine_name || ""}} </mat-cell>
+      </ng-container>
+
+      <!-- Unit Column -->
+      <ng-container matColumnDef="unit">
+        <mat-header-cell *matHeaderCellDef class="width-7-12"> Unit </mat-header-cell>
+        <mat-cell *matCellDef="let element" class="width-7-12"> {{element?.size || ""}} </mat-cell>
+      </ng-container>
+
+      <!-- Mrp Column -->
+      <ng-container matColumnDef="mrp">
+        <mat-header-cell *matHeaderCellDef class="width-5-8"> MRP. </mat-header-cell>
+        <mat-cell *matCellDef="let element" class="width-5-8"> {{element?.mrp || ""}} </mat-cell>
+      </ng-container>
+
+      <!-- Qty Column -->
+      <ng-container matColumnDef="qty">
+        <mat-header-cell *matHeaderCellDef class="width-5-8"> QTY. </mat-header-cell>
+        <mat-cell *matCellDef="let element, let index as i" class="width-5-8">
+          {{element?.size || ""}}
+        </mat-cell>
+      </ng-container>
+
+      <!-- Qty Column -->
+      <ng-container matColumnDef="gst">
+        <mat-header-cell *matHeaderCellDef class="width-5-8"> GST. </mat-header-cell>
+        <mat-cell *matCellDef="let element" class="width-5-8"> {{element?.gst_percentage || ""}} </mat-cell>
+      </ng-container>
+
+      <!-- Amount Column -->
+      <ng-container matColumnDef="amount">
+        <mat-header-cell *matHeaderCellDef> Amount </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{ (element?.mrp * (1 + element?.gst_percentage/100) * element.size) ||
+          ""}} </mat-cell>
+      </ng-container>
+
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+    </mat-table>
+  </div>
+</div>

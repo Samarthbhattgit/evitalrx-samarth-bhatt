@@ -1,0 +1,44 @@
+<nav class="navbar navbar-expand px-2" >
+  <!-- menu icon for small screen -->
+  <div class="side-nav-button p-2 me-3 text-light" *ngIf="screenwidth <= 650 && !!isShowMenu">
+      <mat-icon>menu</mat-icon>
+  </div>
+  <!-- brand name -->
+  <div class="navbar-brand" href="#">eVitalRx</div>
+  <!-- menu for large screen -->
+  <div class="navbar-collapse" *ngIf="screenwidth > 650 && !!isShowMenu">
+      <ul class="navbar-nav me-auto">
+          <li class="nav-item dropdown">
+              <a href="#" role="button" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
+                  Sales
+              </a>
+              <ul class="dropdown-menu dropdown-menu-dark">
+                  <li><a class="dropdown-item" href="#">Order</a></li>
+                  <li><a class="dropdown-item" href="#">Cart</a></li>
+                  <li><a class="dropdown-item" href="#">Dashboard</a></li>
+              </ul>
+          </li>
+
+          <li class="nav-item dropdown">
+            <a href="#" role="button" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
+                patient
+            </a>
+            <ul class="dropdown-menu dropdown-menu-dark">
+                <li><a class="dropdown-item" href="#">Add Patient</a></li>
+                <li><a class="dropdown-item" href="#">Edit Patient</a></li>
+            </ul>
+        </li>
+      </ul>
+  </div>
+  <!-- menu for user details operation -->
+  <div class="profile-logo dropstart" *ngIf="!!isShowMenu">
+      <mat-icon clas="more-vert-button" data-bs-toggle="dropdown">more_vert</mat-icon>
+      <ul class="dropdown-menu dropdown-menu-dark">
+          <li><a class="dropdown-item" href="#">Sign Up</a></li>
+          <li><a class="dropdown-item" href="#">Log In</a></li>
+          <li><a class="dropdown-item" href="#">Your Profile</a></li>
+          <li><a class="dropdown-item" (click)="logout()">Log Out</a></li>
+      </ul>
+  </div>
+</nav>
+
